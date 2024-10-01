@@ -53,16 +53,14 @@ function App() {
   };
 
   const deleteCharacter = (index) => {
-    const newCharacters = characters.filter((_, i) => i !== index);
+    const newCharacters = [...characters];
+    newCharacters.splice(index, 1);
     setCharacters(newCharacters);
   };
 
   const handleAttributeChange = (index, attribute, change) => {
     const newCharacters = [...characters];
-    const totalPoints = Object.values(newCharacters[index].attributes).reduce(
-      (total, value) => total + value,
-      0
-    );
+    const totalPoints = Object.values(newCharacters[index].attributes).reduce( (total, value) => total + value, 0);
 
     if (change > 0 && totalPoints >= MAX_ATTRIBUTE_POINTS) {
       alert('Maximum attribute points reached!');
@@ -72,8 +70,7 @@ function App() {
     const newValue = newCharacters[index].attributes[attribute] + change;
     if (newValue >= 0) {
       newCharacters[index].attributes[attribute] = newValue;
-      newCharacters[index].skillPoints =
-        10 + 4 * calculateModifier(newCharacters[index].attributes.Intelligence);
+      newCharacters[index].skillPoints = 10 + 4 * calculateModifier(newCharacters[index].attributes.Intelligence);
       setCharacters(newCharacters);
     }
   };
@@ -101,11 +98,11 @@ function App() {
   };
 
   const handleClassCheck = (character) => {
-    return Object.entries(CLASS_LIST).filter(([clsName, minAttributes]) =>
+    return Object.entries(CLASS_LIST).filter(([className, minAttributes]) =>
       Object.keys(minAttributes).every(
         attr => character.attributes[attr] >= minAttributes[attr]
       )
-    ).map(([clsName]) => clsName);
+    ).map(([className]) => className);
   };
 
   const handleSkillCheck = (character, skill, dc) => {
@@ -211,12 +208,12 @@ function App() {
 
           <div>
             <h3>Classes</h3>
-            {handleClassCheck(character).map(cls => (
-              <div key={cls}>
-                <h4>{cls}</h4>
+            {handleClassCheck(character).map(classes => (
+              <div key={classes}>
+                <h4>{classes}</h4>
                 <p>Minimum attributes required:</p>
                 <ul>
-                  {Object.entries(CLASS_LIST[cls]).map(([attr, min]) => (
+                  {Object.entries(CLASS_LIST[classes]).map(([attr, min]) => (
                     <li key={attr}>
                       {attr}: {min}
                     </li>
@@ -269,10 +266,7 @@ function App() {
   onClick={() => {
     const skill = document.getElementById('party-skill').value;
     const dc = parseInt(document.getElementById('party-dc').value, 10);
-    
-    // Debug log to check if the button click is registered
     console.log(`Rolling Party Check for skill: ${skill}, DC: ${dc}`);
-    
     const { bestCharacter, roll, success } = handlePartySkillCheck(skill, dc);
     if (bestCharacter) {
       setRollResults(prev => ({
