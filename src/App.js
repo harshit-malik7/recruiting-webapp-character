@@ -107,9 +107,7 @@ function App() {
 
   const handleSkillCheck = (character, skill, dc) => {
     const randomRoll = Math.floor(Math.random() * 20) + 1;
-    const skillTotal =
-      character.skills[skill] +
-      calculateModifier(character.attributes[SKILL_LIST.find(s => s.name === skill).attributeModifier]);
+    const skillTotal = character.skills[skill] + calculateModifier(character.attributes[SKILL_LIST.find(s => s.name === skill).attributeModifier]);
     const success = randomRoll + skillTotal >= dc;
 
     return { roll: randomRoll, success };
@@ -245,8 +243,11 @@ function App() {
             </button>
             {rollResults[`roll-${index}`] && (
               <div className="roll-result">
-                Roll: {rollResults[`roll-${index}`].roll}, Success: {rollResults[`roll-${index}`].success ? 'Yes' : 'No'}
-              </div>
+              Roll: {rollResults[`roll-${index}`].roll}, 
+              <span className={rollResults[`roll-${index}`].success ? 'success' : 'failure'}>
+                Success: {rollResults[`roll-${index}`].success ? 'Yes' : 'No'}
+              </span>
+            </div>
             )}
           </div>
         </div>

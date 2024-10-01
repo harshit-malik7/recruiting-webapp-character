@@ -42,3 +42,11 @@ button:hover {
   font-weight: bold;
   color: green;
 }
+
+.success {
+  color: green;
+}
+
+.failure{
+  color: red;
+}
