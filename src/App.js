@@ -272,7 +272,7 @@ function App() {
     if (bestCharacter) {
       setRollResults(prev => ({
         ...prev,
-        partyRoll: { roll, success, character: bestCharacter.name },
+        partyRoll: { roll, success, character: bestCharacter.char.name },
       }));
     } else {
       console.log('No character available for the skill check.');
@@ -280,7 +280,7 @@ function App() {
     }
   }}
 >
-  Roll Party Check
+  Roll
 </button>
         {rollResults.partyRoll && (
           <div className="roll-result">
